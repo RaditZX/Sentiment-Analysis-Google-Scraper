@@ -1,6 +1,4 @@
-# Generate README.md file automatically
-
-readme_content = """# 🧠 Sentiment Analysis Google Scraper API
+#🧠 Sentiment Analysis Google Scraper API
 
 FastAPI backend for scraping Google Maps reviews (via Apify) and performing **sentiment analysis** using **GitHub Models / OpenAI-compatible API**.  
 This API is designed for integration with a **React Dashboard frontend** and supports both **synchronous** and **asynchronous** scraping jobs.
