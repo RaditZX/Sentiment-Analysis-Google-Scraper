@@ -1,0 +1,29 @@
+# === FastAPI & Server ===
+fastapi>=0.115.0
+uvicorn>=0.30.0
+
+# === Environment & Config ===
+python-dotenv>=1.0.1
+
+# === HTTP & Utilities ===
+requests>=2.32.3
+
+# === MySQL Connector ===
+mysql-connector-python>=9.0.0
+
+# === Apify Client (Google Maps Scraper) ===
+apify-client>=1.7.1
+
+# === Azure AI SDK (GitHub Models Sentiment API) ===
+azure-ai-inference>=1.0.0b7
+azure-core>=1.30.0
+
+# === Data Processing ===
+pydantic>=2.8.2
+typing-extensions>=4.12.2
+
+# === Optional (if you use background tasks & async features) ===
+aiohttp>=3.10.5
+
+# === Logging / Debugging tools (recommended) ===
+colorama>=0.4.6
