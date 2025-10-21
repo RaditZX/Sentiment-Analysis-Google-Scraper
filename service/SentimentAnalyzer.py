@@ -26,7 +26,7 @@ if GITHUB_TOKEN:
 class GitHubModelsSentimentAnalyzer:
 
     @staticmethod
-    async def analyze_with_github(review: str, rating: int, review_id: Optional[str] = None, reviewer_name: str = "", review_at: datetime = datetime.now()) -> dict:
+    async def analyze_with_github(review: str, rating: int, review_id: Optional[str] = None, reviewer_name: str = "", review_at: datetime = datetime.now(), is_google: bool = False) -> dict:
         """Analyze using GitHub Models API"""
         start_time = datetime.now()
 
@@ -92,7 +92,8 @@ class GitHubModelsSentimentAnalyzer:
                 "ai_suggestions": result["ai_suggestions"],
                 "processing_time_ms": round(processing_time, 2),
                 "timestamp": datetime.now().isoformat(),
-                "source": "github_models"
+                "source": "github_models",
+                "is_google": is_google
             }
 
         except Exception as e:

@@ -38,8 +38,9 @@ class SentimentAnalysisConnector:
         }
         
         try:
+            print(f"{payload}")
             response = requests.post(
-                f"{self.backend_url}/api/smart-batch-analyze",
+                f"{self.backend_url}/api/smart-batch-analyze?is_google=true",
                 json=payload,
                 timeout=300
             )

@@ -44,6 +44,7 @@ class DatabaseManager:
                     processing_time_ms DECIMAL(10, 2),
                     source VARCHAR(50),
                     analyzed_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    is_google BOOLEAN DEFAULT FALSE,
                     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     INDEX idx_sentiment (sentiment),
                     INDEX idx_rating (rating),
@@ -88,12 +89,14 @@ class DatabaseManager:
                 return False
             
             cursor = conn.cursor()
+
+            print(result)
             
             query = """
                 INSERT INTO sentiment_analysis 
                 (id, review_text, rating, reviewer_name, review_at, sentiment, sentiment_score, themes, 
-                 analysis_reasons, ai_suggestions, processing_time_ms, source)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
+                 analysis_reasons, ai_suggestions, processing_time_ms, source, is_google)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 ON DUPLICATE KEY UPDATE
                     review_text = VALUES(review_text),
                     rating = VALUES(rating),
@@ -106,6 +109,7 @@ class DatabaseManager:
                     ai_suggestions = VALUES(ai_suggestions),
                     processing_time_ms = VALUES(processing_time_ms),
                     source = VALUES(source),
+                    is_google = VALUES(is_google),
                     updated_at = CURRENT_TIMESTAMP
             """
             
@@ -121,7 +125,8 @@ class DatabaseManager:
                 json.dumps(result['analysis_reasons'], ensure_ascii=False),
                 json.dumps(result['ai_suggestions'], ensure_ascii=False),
                 result['processing_time_ms'],
-                result['source']
+                result['source'],
+                result['is_google']
             )
             
             cursor.execute(query, values)
@@ -310,3 +315,29 @@ class DatabaseManager:
         except Error as e:
             print(f"Error getting statistics: {e}")
             return {}
+     
+
+
+    def get_testimoni(limit: int = 5) -> List[Dict]:
+        """Get sample testimonials from positive reviews"""
+        try:
+            conn = DatabaseManager.get_connection()
+            if not conn:
+                return []
+            
+            cursor = conn.cursor(dictionary=True)
+            
+            # Query hanya untuk testimonial positif
+            query = "SELECT ulasan, rating FROM testimoni"
+            cursor.execute(query)
+            
+            testimonials = cursor.fetchall()
+            
+            cursor.close()
+            conn.close()
+            
+            return testimonials
+            
+        except Error as e:
+            print(f"Error fetching testimonials: {e}")
+            return []

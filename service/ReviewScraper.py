@@ -100,7 +100,9 @@ class ReviewScraper:
         }
         
         try:
-            run = self.client.actor("nwua9Gu5YrADL7ZDj").call(run_input=run_input)
+            run = self.client.actor("nwua9Gu5YrADL7ZDj").call(
+                run_input=run_input
+            )
             dataset_items = list(self.client.dataset(run["defaultDatasetId"]).iterate_items())
             
             if not dataset_items:
