@@ -88,7 +88,7 @@ def get_all_sentiment_analysis(
     offset: int = Query(0, ge=0),
     start_date: Optional[str] = Query(None),
     end_date: Optional[str] = Query(None),
-    is_google: bool = Query(False, description="Whether the reviews come from Google"
+    is_google: bool = Query(False)
 ):
     results = DatabaseManager.get_all_analyses(
         limit=limit,
@@ -104,6 +104,8 @@ def get_all_sentiment_analysis(
         **results["summary"],
         "results": results["results"]
     }
+
+
 
 
 
