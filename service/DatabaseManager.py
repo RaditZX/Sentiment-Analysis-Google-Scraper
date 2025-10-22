@@ -198,7 +198,8 @@ class DatabaseManager:
         offset: int = 0,
         sentiment_filter: Optional[str] = None,
         start_date: Optional[str] = None,
-        end_date: Optional[str] = None
+        end_date: Optional[str] = None,
+        is_google: Optional[bool] = False
     ) -> Dict[str, any]:
         """Get all sentiment analyses with pagination, optional filters, and statistics summary"""
         try:
@@ -228,6 +229,11 @@ class DatabaseManager:
                 base_query += " AND analyzed_at <= %s"
                 params.append(end_date)
 
+            # Filter berdasarkan sumber Google (jika ada)
+            if is_google is not None:
+                base_query += " AND is_google = %s"
+                params.append(is_google)
+                
             # --- Query Data Detail ---
             data_query = f"""
                 SELECT id, review_text, rating, reviewer_name, review_at, sentiment, sentiment_score,
